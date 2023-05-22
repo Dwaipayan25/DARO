@@ -4,6 +4,7 @@ import abi from "./contracts/DAROSmartContract.json";
 import { BrowserRouter, Routes, Route,Link } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
+import Hero from './components/Hero1';
 // import Auctions from './components/Auctions';
 // import CreateAuction from './components/CreateAuction';
 // import ShowAuction from './components/ShowAuction';
@@ -64,6 +65,7 @@ function App() {
     
     <div className="App">
       <Navbar state={state} account={account}/>
+      <Hero />
       {/*<div className='blur' style={{backgroud:"blue"}}></div>
       
       <BrowserRouter>

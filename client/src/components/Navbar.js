@@ -13,12 +13,12 @@ const Navbar = ({account}) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <h1 className="navbar-title">Title</h1>
+        <h1 className="navbar-title">DARO</h1>
       </div>
       <div className="navbar-right">
         <button className="navbar-button">Profile</button>
         <button className="navbar-button">Publications</button>
-        <button className="navbar-button">Connected Account: {acc}</button>
+        <button className="navbar-button1">Connected Account: {acc}</button>
       </div>
     </nav>
   );
