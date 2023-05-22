@@ -1,32 +1,27 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
-// will compile your contracts, add the Hardhat Runtime Environment's members to the
-// global scope, and execute the script.
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  // Get the accounts
+  const [deployer] = await hre.ethers.getSigners();
 
-  const lockedAmount = hre.ethers.utils.parseEther("0.001");
+  console.log("Deploying contracts with the account:", deployer.address);
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(
-    `Lock with ${ethers.utils.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
+  // Deploy the contract
+  const DAROSmartContract = await hre.ethers.getContractFactory("DAROSmartContract");
+  const daroContract = await DAROSmartContract.deploy(
+    // Pass the constructor arguments if required
+    "0xe432150cce91c13a887f7D836923d5597adD8E31", // Alexar gateway contract for Filecoin testnet
+    "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6" // Alexar service contract for Filecoin testnet
   );
+
+  await daroContract.deployed();
+
+  console.log("DARO Smart Contract deployed to:", daroContract.address);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
