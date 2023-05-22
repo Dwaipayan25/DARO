@@ -1,0 +1,46 @@
+body{
+    background-color: rgb(64, 64, 246);
+    /* color: rgb(255, 255, 255); */
+    color: #f2f2f2;
+}
+.publication-container {
+    margin-top: 2rem;
+  }
+  
+  .publication-heading {
+    color: black;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .publication-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .publication-table th,
+  .publication-table td {
+    padding: 0.5rem;
+    border: 1px solid black;
+    text-align: left;
+  }
+  
+  .publication-table th {
+    background-color: #10144b;
+    font-weight: bold;
+  }
+  
+  .publication-table tr:nth-child(even) {
+    background-color: #7e43ff;
+  }
+  
+  .publication-table tr:hover {
+    background-color: #ff00fb;
+  }
+
+  .TableButton{
+    background-color: rgb(60, 255, 0);
+    cursor: pointer;
+  }
+  

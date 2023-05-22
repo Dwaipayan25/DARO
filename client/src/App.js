@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route,Link } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero1';
+import DataSection from './components/DataSection';
+import Footer from './components/Footer';
 // import Auctions from './components/Auctions';
 // import CreateAuction from './components/CreateAuction';
 // import ShowAuction from './components/ShowAuction';
@@ -66,6 +68,8 @@ function App() {
     <div className="App">
       <Navbar state={state} account={account}/>
       <Hero />
+      <DataSection />
+      <Footer />
       {/*<div className='blur' style={{backgroud:"blue"}}></div>
       
       <BrowserRouter>
