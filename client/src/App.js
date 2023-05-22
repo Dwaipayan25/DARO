@@ -1,59 +1,80 @@
-import React, { useState, useReducer } from 'react'
-import { Web3Storage } from 'web3.storage'
+import {useState,useEffect} from 'react';
+import './App.css';
+import abi from "./contracts/DAROSmartContract.json";
+import { BrowserRouter, Routes, Route,Link } from 'react-router-dom';
 
-export default function Home () {
-  const [messages, showMessage] = useReducer((msgs, m) => msgs.concat(m), [])
-  // const [token, setToken] = useState('')
-  const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDM2QTg4NWFFNjRBRGVhZjRBQmY1NTljMDM0RTk1MjA0YWYyNjBFQjIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODQ2OTg4ODg0MzgsIm5hbWUiOiJEQVJPMDEifQ.vTYgJRu6tOkKF-jIBPN1kWCzJ5h4ESesqLV_wmOATEc"
-  const [files, setFiles] = useState([])
+import Navbar from './components/Navbar';
+// import Auctions from './components/Auctions';
+// import CreateAuction from './components/CreateAuction';
+// import ShowAuction from './components/ShowAuction';
+// const {ethers} = require('ethers');
+import { ethers } from "ethers";
 
-  async function handleSubmit (event) {
-    // don't reload the page!
-    event.preventDefault()
+function App() {
 
-    showMessage('> 📦 creating web3.storage client')
-    const client = new Web3Storage({ token })
+  const [state,setState] = useState({
+    provider:null,
+    signer:null,
+    contract:null,
+  })
 
-    showMessage('> 🤖 chunking and hashing the files (in your browser!) to calculate the Content ID')
-    const cid = await client.put(files, {
-      onRootCidReady: localCid => {
-        showMessage(`> 🔑 locally calculated Content ID: ${localCid} `)
-        showMessage('> 📡 sending files to web3.storage ')
-      },
-      onStoredChunk: bytes => showMessage(`> 🛰 sent ${bytes.toLocaleString()} bytes to web3.storage`)
-    })
-    showMessage(`> ✅ web3.storage now hosting ${cid}`)
-    showLink(`https://dweb.link/ipfs/${cid}`)
+  const [account,setAccount] = useState('None');
+  const [id,setId]=useState(0);
 
-    // showMessage('> 📡 fetching the list of all unique uploads on this account')
-    // let totalBytes = 0
-    // for await (const upload of client.list()) {
-    //   showMessage(`> 📄 ${upload.cid}  ${upload.name}`)
-    //   totalBytes += upload.dagSize || 0
-    // }
-    // showMessage(`> ⁂ ${totalBytes.toLocaleString()} bytes stored!`)
-  }
+  useEffect(()=>{
+    const connectWallet=async()=>{
+      const contractAddress = "0x938C90ce6062e6271fb549f3be2B3f83c7E76316";
+      const contractABI=abi.abi;
+      try{
+        const {ethereum}=window;
+        if(ethereum){
+          const accounts=await ethereum.request({method:"eth_requestAccounts"});
 
-  function showLink (url) {
-    showMessage(<span>&gt; 🔗 <a href={url}>{url}</a></span>)
-  }
+          window.ethereum.on("chainChanged",()=>{
+            window.location.reload();
+          })
+
+          window.ethereum.on("accountsChanged",()=>{
+            window.location.reload();
+            connectWallet();
+          })
+        
+          const provider=new ethers.providers.Web3Provider(window.ethereum);
+          const signer=provider.getSigner();
+          const contract=new ethers.Contract(contractAddress,contractABI,signer);
+          console.log(accounts[0]);
+          setAccount(accounts[0]);
+          setState({provider,signer,contract});
+          console.log(state);
+        }else{
+          alert("please install metamask")
+        }
+      }
+      catch{
+        console.log("error");
+      }
+    };
+    connectWallet();
+  },[])
+  console.log(state);
+
+
 
   return (
-    <>
-      <header>
-        <h1>⁂
-          <span>web3.storage</span>
-        </h1>
-      </header>
-      <form id='upload-form' onSubmit={handleSubmit}>
-        <label htmlFor='filepicker'>Pick files to store</label>
-        <input type='file' id='filepicker' name='fileList' onChange={e => setFiles(e.target.files)} multiple required />
-        <input type='submit' value='Submit' id='submit' />
-      </form>
-      <div id='output'>
-        &gt; ⁂ waiting for form submission...
-        {messages.map((m, i) => <div key={m + i}>{m}</div>)}
-      </div>
-    </>
-  )
+    
+    <div className="App">
+      <Navbar state={state} account={account}/>
+      {/*<div className='blur' style={{backgroud:"blue"}}></div>
+      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<CreateAuction state={state} />} />
+          <Route path="/auctions" element={<Auctions state={state} setid={setIdfunc}/>} />
+          <Route path="/show" element={<ShowAuction state={state} id={id}/>} />
+        </Routes>
+      </BrowserRouter> */}
+    </div>
+  );
 }
+
+export default App;
