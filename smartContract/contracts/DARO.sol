@@ -26,6 +26,7 @@ contract DAROSmartContract is AxelarExecutable{
         address researcher;
         string title;
         string description;
+        string hash;
         uint256 timestamp;
         bool reviewed;
         bool rewarded;
@@ -37,11 +38,13 @@ contract DAROSmartContract is AxelarExecutable{
     struct Updates {
         uint256 timestamp;
         address userAddress;
+        string description;
         string data;
     }
 
     struct Requests {
         uint256 timestamp;
+        uint256 id;
         address userAddress;
         string data;
         bool Approved;
@@ -99,6 +102,7 @@ contract DAROSmartContract is AxelarExecutable{
             msg.sender,
             _title,
             _description,
+            _fileHash,
             block.timestamp,
             false,
             false,
@@ -115,15 +119,15 @@ contract DAROSmartContract is AxelarExecutable{
     }
 
     //function to update publications
-    function updatePublications(uint256 _id, string memory _fileHash) public onlyOwnerOrContributor(_id) {
+    function updatePublications(uint256 _id, string memory _fileHash,string memory _description) public onlyOwnerOrContributor(_id) {
         filesHash[_id].push(_fileHash);
-                Updates memory updates = Updates(block.timestamp, msg.sender, _fileHash);
+                Updates memory updates = Updates(block.timestamp, msg.sender,_description, _fileHash);
         userUpdates[_id].push(updates);
     }
 
     //function to contribute to a publication
     function contribute(uint256 _id, string memory _description) public {
-        Requests memory request = Requests(block.timestamp, msg.sender, _description,false);
+        Requests memory request = Requests(block.timestamp,_id, msg.sender, _description,false);
         requestContribution[_id][msg.sender].push(request);
         messages[publications[_id].researcher].push(request);
     }
@@ -132,8 +136,9 @@ contract DAROSmartContract is AxelarExecutable{
     function allowContributor(uint256 _id, address _contributor) public onlyOwner(_id) {
         contributors[_id][_contributor] = true;
         publications[_id].contributors.push(_contributor);
-         Requests memory request = Requests(block.timestamp, msg.sender, "You can contribute now",true);
+         Requests memory request = Requests(block.timestamp,_id, msg.sender, "You can contribute now",true);
         messages[_contributor].push(request);
+        publicationsByAddress[_contributor].push(publications[_id]);
     }
 
     //function to add a review to a publication
@@ -213,7 +218,7 @@ contract DAROSmartContract is AxelarExecutable{
             payable(contributor).transfer(contributorShare);
         }
         // Reset the funding details
-        totalAmountRaised = 0;
+        publications[_id].totalContributions = 0;
     }
 
     function getPublicationsByAddress(address _owner) public view returns(Publication[] memory){
@@ -236,7 +241,10 @@ contract DAROSmartContract is AxelarExecutable{
         return getReviews[_id];
     }
 
-    
+    function getHashById(uint256 _id)public view returns(string[] memory){
+        return filesHash[_id];
+    }
 }
 
-//Address: 0xaCF9B93a41A4804fD40a2FA984303BC80355D121
+
+// Address: 0xb255Bc85069bDe14D66333Abb89ab7a226F39D39

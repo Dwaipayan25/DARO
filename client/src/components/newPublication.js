@@ -107,7 +107,7 @@ const Form = ({state}) => {
       </div>
       <button type="submit">Submit</button>
     </form>
-    <button onClick={seePub}>See Pubs</button>
+    {/* <button onClick={seePub}>See Pubs</button> */}
     </div>
   );
 };

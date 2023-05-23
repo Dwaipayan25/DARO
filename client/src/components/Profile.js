@@ -153,7 +153,7 @@ const Profile = ({state,account}) => {
           <MessageCard
             key={index}
             accountNumber={message.userAddress}
-            projectId={changeToInt(message.timestamp)}
+            projectId={changeToInt(message.id)}
             description={message.data}
             timestamp={changeToInt(message.timestamp)}
           />

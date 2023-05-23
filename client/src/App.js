@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import NewPublication from './components/newPublication';
 import FileSubmit from "./components/FileSubmit";
 import PublicationPage from './components/PublicationPage';
+import Publication01 from "./components/Publication01";
 import Profile from './components/Profile';
 import { ethers } from "ethers";
 
@@ -26,8 +27,8 @@ function App() {
 
   useEffect(()=>{
     const connectWallet=async()=>{
-      // const contractAddress = "0xaCF9B93a41A4804fD40a2FA984303BC80355D121";
-      const contractAddress = "0x7743b28F24157ab014e39eFA79C172C58679E01e";
+      // const contractAddress = "0xa854AB7c947303aDf4f7Cfa8e3169b1d97dF1238";
+      const contractAddress = "0x1E066480866E5588a38d7749d17D098A187B2f1b";
       const contractABI=abi.abi;
       try{
         const {ethereum}=window;
@@ -72,12 +73,13 @@ function App() {
     
     <div className="App">
       <Navbar state={state} account={account}/>
-      {/* <Hero /> */}
+      <Hero />
       {/* <DataSection /> */}
-      {/* <NewPublication state={state}/> */}
+      <NewPublication state={state}/>
       {/* <FileSubmit /> */}
       {/* <PublicationPage state={state} setId={setIdfunc}/> */}
-      <Profile state={state} account={account}/>
+      {/* <Profile state={state} account={account}/> */}
+      <Publication01 state={state} id={id}/>
       <Footer />
       
       {/*<div className='blur' style={{backgroud:"blue"}}></div>
