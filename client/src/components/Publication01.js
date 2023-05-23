@@ -154,7 +154,7 @@ const PublicationPage = ({state,id}) => {
         <div className="allow-access">
           <h2>Fund Publication</h2>
           <label htmlFor='input'>How much to contribute ?</label>
-          <p>(Crosschain Funding possible by Alexar)</p>
+          <p>(Crosschain Funding possible by AXELAR)</p>
           <p>Enter Funding value in (tFIL)</p>
           <input
           type="number"

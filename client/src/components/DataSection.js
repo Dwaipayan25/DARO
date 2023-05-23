@@ -12,7 +12,7 @@ const BoxComponent = () => {
       </div>
       <div className="box">
         <img src={ax} alt="Image 2" className="box-image" />
-        <div className="box-text">Facilitate collaboration and knowledge sharing among researchers through crosschain networks because of Alexar</div>
+        <div className="box-text">Facilitate collaboration and knowledge sharing among researchers through crosschain networks because of AXELAR</div>
       </div>
       <div className="box">
         <img src={bt} alt="Image 3" className="box-image" />
