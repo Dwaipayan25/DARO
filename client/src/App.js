@@ -1,7 +1,7 @@
 import {useState,useEffect} from 'react';
 import './App.css';
 import abi from "./contracts/DAROSmartContract.json";
-import { BrowserRouter, Routes, Route,Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route,Link } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 import Hero from './components/Hero1';
@@ -27,8 +27,8 @@ function App() {
 
   useEffect(()=>{
     const connectWallet=async()=>{
-      // const contractAddress = "0xa854AB7c947303aDf4f7Cfa8e3169b1d97dF1238";
-      const contractAddress = "0x1E066480866E5588a38d7749d17D098A187B2f1b";
+      const contractAddress = "0xb255Bc85069bDe14D66333Abb89ab7a226F39D39";
+      // const contractAddress = "0x1E066480866E5588a38d7749d17D098A187B2f1b";
       const contractABI=abi.abi;
       try{
         const {ethereum}=window;
@@ -72,25 +72,30 @@ function App() {
   return (
     
     <div className="App">
-      <Navbar state={state} account={account}/>
-      <Hero />
+      
+      {/* <Hero /> */}
       {/* <DataSection /> */}
-      <NewPublication state={state}/>
+      {/* <NewPublication state={state}/> */}
       {/* <FileSubmit /> */}
       {/* <PublicationPage state={state} setId={setIdfunc}/> */}
       {/* <Profile state={state} account={account}/> */}
-      <Publication01 state={state} id={id}/>
-      <Footer />
+      {/* <Publication01 state={state} id={id}/> */}
       
-      {/*<div className='blur' style={{backgroud:"blue"}}></div>
       
-      <BrowserRouter>
+      <Router>
+      <Navbar state={state} account={account}/>
         <Routes>
-          <Route path="/" element={<CreateAuction state={state} />} />
-          <Route path="/auctions" element={<Auctions state={state} setid={setIdfunc}/>} />
-          <Route path="/show" element={<ShowAuction state={state} id={id}/>} />
+          <Route path="/" element={<Hero />} />
+          <Route path="/publications" element={<PublicationPage state={state} setid={setIdfunc}/>} />
+          <Route path="/profile" element={<Profile state={state} account={account} setid={setIdfunc}/>}/>
+          <Route path="/pub01" element={<Publication01 state={state} id={id}/>} />
+          <Route path="/publish" element={<NewPublication state={state}/>} />
+          
         </Routes>
-      </BrowserRouter> */}
+        <Footer />
+      </Router>
+      
+
     </div>
   );
 }

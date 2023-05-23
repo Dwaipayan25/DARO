@@ -1,7 +1,8 @@
 import React from 'react';
 import './Card.css';
+import { Link } from "react-router-dom";
 
-const Card = ({ title, description, ownerAddress }) => {
+const Card = ({ key, title, description, ownerAddress,setid }) => {
   return (
     <div className="card">
       <div className="card-content">
@@ -11,8 +12,7 @@ const Card = ({ title, description, ownerAddress }) => {
           <p className="card-owner">{ownerAddress}</p>
         </div>
         <div className="card-actions">
-          {/* <button className="card-button">Fund</button> */}
-          <button className="card-button">View More</button>
+          <button className="card-button" >View More</button>
           <button className="card-button">Contribute</button>
         </div>
       </div>

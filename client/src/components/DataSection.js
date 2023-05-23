@@ -1,67 +1,25 @@
-import React from "react";
-import "./DataSection.css";
-
-const ClosedDisputes = () => {
-  const publications = [
-    {
-      id: 1,
-      createdBy: "John Doe",
-      Title: "Title 1",
-      description: "Open Source Organization",
-    },
-    {
-      id: 2,
-      createdBy: "Jane Doe",
-      Title: "Title 2",
-      description: "Another Open Source Organization",
-    },
-    {
-      id: 3,
-      createdBy: "Bob Smith",
-      Title: "Title 3",
-      description: "Third Open Source Organization",
-    },
-    {
-      id: 4,
-      createdBy: "Samantha Lee",
-      Title: "Title 4",
-      description: "Yet Another Open Source Organization",
-    },
-    {
-      id: 5,
-      createdBy: "Mike Chen",
-      Title: "Title 5",
-      description: "The Best Open Source Organization",
-    },
-  ];
-
+import React from 'react';
+import './DataSection.css';
+import fc from "./images/fc.png"
+import ax from "./images/ax.jpeg"
+import bt from "./images/bt.jpeg"
+const BoxComponent = () => {
   return (
-    <div className="publication-container">
-      <h2 className="publication-heading">Popular Publications</h2>
-      <table className="publication-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Created By</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Show Detail</th>
-          </tr>
-        </thead>
-        <tbody>
-          {publications.map((publication) => (
-            <tr key={publication.id}>
-              <td>{publication.id}</td>
-              <td>{publication.createdBy}</td>
-              <td>{publication.Title}</td>
-              <td>{publication.description}</td>
-              <td><button className="TableButton">Details</button></td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="box-container">
+      <div className="box">
+        <img src={fc} alt="Image 1" className="box-image" />
+        <div className="box-text">Empower researchers to publish their work in a decentralized and transparent manner in FileCoin Network</div>
+      </div>
+      <div className="box">
+        <img src={ax} alt="Image 2" className="box-image" />
+        <div className="box-text">Facilitate collaboration and knowledge sharing among researchers through crosschain networks because of Alexar</div>
+      </div>
+      <div className="box">
+        <img src={bt} alt="Image 3" className="box-image" />
+        <div className="box-text">Provides secure and encrypted data storage for research publications and associated data and enable verifiability and transparency of research outputs.</div>
+      </div>
     </div>
   );
 };
 
-export default ClosedDisputes;
+export default BoxComponent;

@@ -181,6 +181,7 @@ const PublicationPage = ({state,id}) => {
                 <UpdateCard
                     key={index}
                     address={update.userAddress}
+                    description={update.description}
                     fileLink={update.data}
                  />
             ))}

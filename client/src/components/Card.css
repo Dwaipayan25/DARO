@@ -53,7 +53,7 @@
     cursor: pointer;
   }
   
-  .card-button:last-child {
-    margin-bottom: 0;
+  .card-button {
+    margin-bottom: 10px;
   }
   

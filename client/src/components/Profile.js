@@ -3,6 +3,7 @@ import Card from './Card';
 import MessageCard from './MessageCard';
 import './Profile.css';
 import { ethers } from "ethers";
+import { Link } from "react-router-dom";
 
 export const shortenAddress = (address) => {
     return `${address.substring(0, 5)}...${address.substring(
@@ -41,7 +42,7 @@ export const shortenAddress = (address) => {
     },
   ];
 
-const Profile = ({state,account}) => {
+const Profile = ({state,account,setid}) => {
   const [contributorId, setContributorId] = useState('');
   const [contributorAddress, setContributorAddress] = useState('');
   const [publications,setPublications]=useState([]);
@@ -113,13 +114,24 @@ const Profile = ({state,account}) => {
           <p>Number of Publications: {publications.length}</p>
         </div>
         <div className="publication-list">
-      {publications.map((publication, index) => (
-          <Card
-            key={index}
-            title={publication.title}
-            description={publication.description}
-            ownerAddress={shortenAddress(publication.researcher)}
-          />
+        {publications.map((publication, index) => (
+          <>
+            <div className="card">
+              <div className="card-content">
+                <div className="card-info">
+                  <h3 className="card-title">{publication.title}</h3>
+                  <p className="card-description">{publication.description}</p>
+                  <p className="card-owner">{shortenAddress(publication.researcher)}</p>
+                </div>
+                <div className="card-actions">
+                  <Link to="/pub01">
+                    <button className="card-button" onClick={()=>{setid(changeToInt(publication.id))}}>View More</button>
+                  </Link>
+                  <button className="card-button">Contribute</button>
+                </div>
+              </div>
+            </div>
+          </>
         ))}
       </div>
         
@@ -149,7 +161,10 @@ const Profile = ({state,account}) => {
       <div className="messages">
           <h2>Messages:</h2>
           <ul>
-          {messages.map((message, index) => (
+          {messages
+          .slice(0)
+          .reverse()
+          .map((message, index) => (
           <MessageCard
             key={index}
             accountNumber={message.userAddress}
