@@ -7,10 +7,10 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero1';
 import DataSection from './components/DataSection';
 import Footer from './components/Footer';
-// import Auctions from './components/Auctions';
-// import CreateAuction from './components/CreateAuction';
-// import ShowAuction from './components/ShowAuction';
-// const {ethers} = require('ethers');
+import NewPublication from './components/newPublication';
+import FileSubmit from "./components/FileSubmit";
+import PublicationPage from './components/PublicationPage';
+import Profile from './components/Profile';
 import { ethers } from "ethers";
 
 function App() {
@@ -22,11 +22,12 @@ function App() {
   })
 
   const [account,setAccount] = useState('None');
-  const [id,setId]=useState(0);
+  const [id,setId]=useState(1);
 
   useEffect(()=>{
     const connectWallet=async()=>{
-      const contractAddress = "0x938C90ce6062e6271fb549f3be2B3f83c7E76316";
+      // const contractAddress = "0xaCF9B93a41A4804fD40a2FA984303BC80355D121";
+      const contractAddress = "0x7743b28F24157ab014e39eFA79C172C58679E01e";
       const contractABI=abi.abi;
       try{
         const {ethereum}=window;
@@ -61,15 +62,24 @@ function App() {
   },[])
   console.log(state);
 
+  function setIdfunc(_id){
+    setId(_id);
+  }
+
 
 
   return (
     
     <div className="App">
       <Navbar state={state} account={account}/>
-      <Hero />
-      <DataSection />
+      {/* <Hero /> */}
+      {/* <DataSection /> */}
+      {/* <NewPublication state={state}/> */}
+      {/* <FileSubmit /> */}
+      {/* <PublicationPage state={state} setId={setIdfunc}/> */}
+      <Profile state={state} account={account}/>
       <Footer />
+      
       {/*<div className='blur' style={{backgroud:"blue"}}></div>
       
       <BrowserRouter>

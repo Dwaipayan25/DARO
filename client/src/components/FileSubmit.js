@@ -3,7 +3,6 @@ import { Web3Storage } from 'web3.storage'
 
 export default function Home () {
   const [messages, showMessage] = useReducer((msgs, m) => msgs.concat(m), [])
-  // const [token, setToken] = useState('')
   const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDM2QTg4NWFFNjRBRGVhZjRBQmY1NTljMDM0RTk1MjA0YWYyNjBFQjIiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODQ2OTg4ODg0MzgsIm5hbWUiOiJEQVJPMDEifQ.vTYgJRu6tOkKF-jIBPN1kWCzJ5h4ESesqLV_wmOATEc"
   const [files, setFiles] = useState([])
 
@@ -24,14 +23,6 @@ export default function Home () {
     })
     showMessage(`> ✅ web3.storage now hosting ${cid}`)
     showLink(`https://dweb.link/ipfs/${cid}`)
-
-    // showMessage('> 📡 fetching the list of all unique uploads on this account')
-    // let totalBytes = 0
-    // for await (const upload of client.list()) {
-    //   showMessage(`> 📄 ${upload.cid}  ${upload.name}`)
-    //   totalBytes += upload.dagSize || 0
-    // }
-    // showMessage(`> ⁂ ${totalBytes.toLocaleString()} bytes stored!`)
   }
 
   function showLink (url) {

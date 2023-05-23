@@ -44,20 +44,22 @@ contract DAROSmartContract is AxelarExecutable{
         uint256 timestamp;
         address userAddress;
         string data;
+        bool Approved;
     }
 
     // Mapping to store research publications
     mapping(uint256 => Publication) public publications;
     // Mapping to store reviews
     mapping(uint256 => Review) public reviews;
+    mapping(uint256 => Review[]) public getReviews;
     // Mapping to update research publications
     mapping(uint256 => Updates[]) public userUpdates;
     // Mapping requests to research_id
     mapping(uint256 => mapping(address => Requests[])) public requestContribution;
 
     // Counter to assign unique IDs to publications and reviews
-    uint256 private publicationCounter;
-    uint256 private reviewCounter;
+    uint256 public publicationCounter;
+    uint256 public reviewCounter;
 
     // Event triggered when a new research publication is submitted
     event PublicationSubmitted(uint256 indexed publicationId, address indexed researcher);
@@ -71,7 +73,7 @@ contract DAROSmartContract is AxelarExecutable{
     //Mapping of all Contributors to their research_id
     mapping(uint256 => mapping(address => bool)) public contributors;
     //message for individual address
-    mapping(address => string[]) public messages;
+    mapping(address => Requests[]) public messages;
 
     // Modifier to ensure only the owner can access certain functions
     modifier onlyOwner(uint256 _id) {
@@ -121,14 +123,17 @@ contract DAROSmartContract is AxelarExecutable{
 
     //function to contribute to a publication
     function contribute(uint256 _id, string memory _description) public {
-        Requests memory request = Requests(block.timestamp, msg.sender, _description);
+        Requests memory request = Requests(block.timestamp, msg.sender, _description,false);
         requestContribution[_id][msg.sender].push(request);
+        messages[publications[_id].researcher].push(request);
     }
 
     //function to allow a contributor
     function allowContributor(uint256 _id, address _contributor) public onlyOwner(_id) {
         contributors[_id][_contributor] = true;
         publications[_id].contributors.push(_contributor);
+         Requests memory request = Requests(block.timestamp, msg.sender, "You can contribute now",true);
+        messages[_contributor].push(request);
     }
 
     //function to add a review to a publication
@@ -143,10 +148,12 @@ contract DAROSmartContract is AxelarExecutable{
 
         uint256 reviewId = reviewCounter + 1; // Generate a new review ID
         reviewCounter++;
+        getReviews[_id].push(review);
 
         publications[_id].reviewIds.push(reviewId);
         reviews[reviewId] = review; // Store the review in the reviews mapping
         publications[_id].reviewed = true;
+        
     }
 
     //function to get the average score of a publication
@@ -159,7 +166,6 @@ contract DAROSmartContract is AxelarExecutable{
         for (uint256 i = 0; i < reviewIds.length; i++) {
             totalScore += reviews[reviewIds[i]].score;
         }
-
         return totalScore / reviewIds.length;
     }
 
@@ -168,8 +174,8 @@ contract DAROSmartContract is AxelarExecutable{
     string public sourceAddress;
     function contributeFunds(uint256 _id) external payable {
         
-        if (msg.value > 0) {
-            gasService.payNativeGasForContractCall{ value: msg.value/1000 }(
+        if (msg.value > 0.001 ether) {
+            gasService.payNativeGasForContractCall{ value: 0.001 ether }(
                 address(this),
                 sourceChain,
                 sourceAddress,
@@ -177,7 +183,7 @@ contract DAROSmartContract is AxelarExecutable{
                 msg.sender
             );
         }
-        publications[_id].totalContributions+=(msg.value-msg.value/1000);
+        publications[_id].totalContributions+=(msg.value-0.001 ether);
 
     }
 
@@ -209,7 +215,28 @@ contract DAROSmartContract is AxelarExecutable{
         // Reset the funding details
         totalAmountRaised = 0;
     }
+
+    function getPublicationsByAddress(address _owner) public view returns(Publication[] memory){
+        return publicationsByAddress[_owner];
+    }
+
+    function getPublicationById(uint256 _id) public view returns(Publication memory){
+        return publications[_id];
+    }
+
+    function getMessage(address _owner)public view returns(Requests[] memory){
+        return messages[_owner];
+    }
+
+    function getUserUpdates(uint256 _id) public view returns(Updates[] memory){
+        return userUpdates[_id];
+    }
+
+    function getReview(uint256 _id) public view returns(Review[] memory){
+        return getReviews[_id];
+    }
+
     
 }
 
-//Contract Address: 0x938C90ce6062e6271fb549f3be2B3f83c7E76316
+//Address: 0xaCF9B93a41A4804fD40a2FA984303BC80355D121
